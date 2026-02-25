@@ -485,7 +485,6 @@ button[type="submit"]:disabled {
   color: #fff;
 }
 
-/* ===== ROUNDS SELECTOR ===== */
 .rounds-selector {
   display: flex;
   gap: 0.5rem;
