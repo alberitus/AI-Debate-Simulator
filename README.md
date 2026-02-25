@@ -97,7 +97,3 @@ src/
 |---|---|
 | `VITE_GEMINI_KEY` | Google Gemini API Key |
 | `VITE_GROQ_KEY` | Groq API Key (for Llama) |
-
-## 📄 License
-
-MIT License © 2026
