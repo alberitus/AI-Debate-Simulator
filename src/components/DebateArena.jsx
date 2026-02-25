@@ -23,7 +23,7 @@ const DebateArena = ({ messages, loading, topic, geminiStance, onReset, language
                     </span>
                 </div>
             </div>
-    
+
             {rounds.map(round => (
                 <div key={round}>
                     <div className="round-badge">
@@ -34,15 +34,27 @@ const DebateArena = ({ messages, loading, topic, geminiStance, onReset, language
                     ))}
                 </div>
             ))}
-    
+
             {loading === "gemini" && <LoadingDots model="gemini" language={language} />}
             {loading === "llama" && <LoadingDots model="llama" language={language} />}
-    
-            {!loading && messages.length > 0 && (
-                <button className="reset-btn" onClick={onReset}>
-                    <i className="bi bi-arrow-counterclockwise"></i>
-                    {isEn ? "New Debate" : "Debat Baru"}
-                </button>
+
+            {messages.length > 0 && (
+                <div className="arena-actions">
+                    <button
+                        className="stop-voice-btn"
+                        onClick={() => window.speechSynthesis.cancel()}
+                    >
+                        <i className="bi bi-volume-mute-fill"></i>
+                        {isEn ? "Stop Voice" : "Hentikan Suara"}
+                    </button>
+
+                    {!loading && (
+                        <button className="reset-btn" onClick={onReset}>
+                            <i className="bi bi-arrow-counterclockwise"></i>
+                            {isEn ? "New Debate" : "Debat Baru"}
+                        </button>
+                    )}
+                </div>
             )}
         </div>
     )

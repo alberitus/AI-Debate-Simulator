@@ -5,13 +5,14 @@ const DebateForm = ({ onSubmit, loading, language, onLanguageChange }) => {
     const [context, setContext] = useState("")
     const [rounds, setRounds] = useState(3)
     const [geminiStance, setGeminiStance] = useState("pro")
+    const [firstSpeaker, setFirstSpeaker] = useState("gemini")
 
     const isEn = language === "en"
 
     const handleSubmit = (e) => {
         e.preventDefault()
         if (!topic.trim()) return
-        onSubmit({ topic, context, rounds: Number(rounds), geminiStance, language })
+        onSubmit({ topic, context, rounds: Number(rounds), geminiStance, language, firstSpeaker })
     }
 
     return (
@@ -52,16 +53,16 @@ const DebateForm = ({ onSubmit, loading, language, onLanguageChange }) => {
 
             <div className="form-row">
                 <div className="form-group">
-                    <label htmlFor="rounds">{isEn ? "Rounds" : "Jumlah Ronde"}</label>
+                    <label>{isEn ? "Rounds" : "Jumlah Ronde"}</label>
                     <div className="rounds-selector">
                         {[2, 3, 4, 5, 10].map(n => (
                             <button
-                            key={n}
-                            type="button"
-                            className={`round-btn ${rounds === n ? "round-btn-active" : ""}`}
-                            onClick={() => setRounds(n)}
+                                key={n}
+                                type="button"
+                                className={`round-btn ${rounds === n ? "round-btn-active" : ""}`}
+                                onClick={() => setRounds(n)}
                             >
-                            {n}
+                                {n}
                             </button>
                         ))}
                     </div>
@@ -71,16 +72,16 @@ const DebateForm = ({ onSubmit, loading, language, onLanguageChange }) => {
                     <label>{isEn ? "Language" : "Bahasa"}</label>
                     <div className="lang-toggle">
                         <button
-                        type="button"
-                        className={language === "en" ? "lang-active" : ""}
-                        onClick={() => onLanguageChange("en")}
+                            type="button"
+                            className={language === "en" ? "lang-active" : ""}
+                            onClick={() => onLanguageChange("en")}
                         >
                             <i className="bi bi-translate"></i> English
                         </button>
                         <button
-                        type="button"
-                        className={language === "id" ? "lang-active" : ""}
-                        onClick={() => onLanguageChange("id")}
+                            type="button"
+                            className={language === "id" ? "lang-active" : ""}
+                            onClick={() => onLanguageChange("id")}
                         >
                             <i className="bi bi-translate"></i> Indonesia
                         </button>
@@ -103,8 +104,8 @@ const DebateForm = ({ onSubmit, loading, language, onLanguageChange }) => {
                             )}
                         </div>
                         <p>{geminiStance === "pro"
-                        ? `✦ PRO — ${isEn ? "Supporting" : "Mendukung"}`
-                        : `✦ ${isEn ? "AGAINST — Opposing" : "KONTRA — Menentang"}`}
+                            ? `✦ PRO — ${isEn ? "Supporting" : "Mendukung"}`
+                            : `✦ ${isEn ? "AGAINST — Opposing" : "KONTRA — Menentang"}`}
                         </p>
                     </div>
 
@@ -120,24 +121,55 @@ const DebateForm = ({ onSubmit, loading, language, onLanguageChange }) => {
                             )}
                         </div>
                         <p>{geminiStance === "kontra"
-                        ? `✦ PRO — ${isEn ? "Supporting" : "Mendukung"}`
-                        : `✦ ${isEn ? "AGAINST — Opposing" : "KONTRA — Menentang"}`}
+                            ? `✦ PRO — ${isEn ? "Supporting" : "Mendukung"}`
+                            : `✦ ${isEn ? "AGAINST — Opposing" : "KONTRA — Menentang"}`}
                         </p>
+                    </div>
+                </div>
+            </div>
+
+            <div className="form-group">
+                <label>{isEn ? "Who speaks first?" : "Siapa yang bicara duluan?"}</label>
+                <div className="role-selector">
+                    <div
+                        className={`role-card ${firstSpeaker === "gemini" ? "selected-gemini" : ""}`}
+                        onClick={() => setFirstSpeaker("gemini")}
+                    >
+                        <div className="role-card-header">
+                            <div className="model-dot dot-gemini"></div>
+                            <span className="gemini-label">Gemini</span>
+                            {firstSpeaker === "gemini" && (
+                                <i className="bi bi-mic-fill" style={{ color: "#2563eb", marginLeft: "auto" }}></i>
+                            )}
+                        </div>
+                    </div>
+
+                    <div
+                        className={`role-card ${firstSpeaker === "llama" ? "selected-llama" : ""}`}
+                        onClick={() => setFirstSpeaker("llama")}
+                    >
+                        <div className="role-card-header">
+                            <div className="model-dot dot-llama"></div>
+                            <span className="llama-label">Llama</span>
+                            {firstSpeaker === "llama" && (
+                                <i className="bi bi-mic-fill" style={{ color: "#7c3aed", marginLeft: "auto" }}></i>
+                            )}
+                        </div>
                     </div>
                 </div>
             </div>
 
             <button type="submit" disabled={loading}>
                 {loading ? (
-                <>
-                    <i className="bi bi-hourglass-split"></i>
-                    {isEn ? "Debate in Progress..." : "Debat Berlangsung..."}
-                </>
+                    <>
+                        <i className="bi bi-hourglass-split"></i>
+                        {isEn ? "Debate in Progress..." : "Debat Berlangsung..."}
+                    </>
                 ) : (
-                <>
-                    <i className="bi bi-lightning-charge-fill"></i>
-                    {isEn ? "Start Debate" : "Mulai Debat"}
-                </>
+                    <>
+                        <i className="bi bi-lightning-charge-fill"></i>
+                        {isEn ? "Start Debate" : "Mulai Debat"}
+                    </>
                 )}
             </button>
         </form>
