@@ -58,7 +58,6 @@ VITE_GEMINI_KEY=your_gemini_api_key_here
 VITE_GROQ_KEY=your_groq_api_key_here
 ```
 
-> ⚠️ Never commit your `.env` file to GitHub. Make sure `.env` is listed in `.gitignore`.
 
 ### 5. Run the development server
 
